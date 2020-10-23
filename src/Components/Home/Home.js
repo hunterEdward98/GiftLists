@@ -1,23 +1,29 @@
 import React from "react";
 import Selector from "./Selector/Selector";
-import connect from "react-redux";
+import { connect } from "react-redux";
 class Home extends React.Component {
+  state = {
+    family: this.props.family,
+  };
   render() {
     return (
       <div className="body">
         <div>Please Select A family member to view their lists</div>
         <div>
           <Selector
-            options={[
-              { value: 0, label: "John" },
-              { value: 1, label: "Kara" },
-              { value: 2, label: "Penny" },
-              { value: 0, label: "Bonnie" },
-            ]}
+            options={this.props.family.map((x) => {
+              let obj = { value: x.id, label: x.name };
+              return obj;
+            })}
           />
         </div>
       </div>
     );
   }
 }
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    family: state.family,
+  };
+};
+export default connect(mapStateToProps)(Home);

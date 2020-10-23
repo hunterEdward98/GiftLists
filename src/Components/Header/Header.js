@@ -4,7 +4,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className="header">
-        <div className="Title">Christmas And Birthday List App</div>
+        <div className="Title">GiftList</div>
         <Nav />
       </div>
     );
