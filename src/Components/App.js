@@ -1,12 +1,18 @@
 import React from "react";
 import "./App.css";
+import { HashRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import Home from "./Home/Home";
+import Header from "./Header/Header";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Edit and save to reload.</p>
-      </header>
+      <Router>
+        <Header />
+        <Route path="/Home">
+          <Home />
+        </Route>
+      </Router>
     </div>
   );
 }
