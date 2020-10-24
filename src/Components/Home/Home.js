@@ -8,8 +8,9 @@ class Home extends React.Component {
   componentDidMount() {
     this.props.dispatch({ type: "FETCH_FAMILY" });
   }
-  setFamily = (obj) => {
-    this.props.history.push("/ListView");
+  setFamily = async (obj) => {
+    await this.props.dispatch({ type: "SET_SELECTED_USER", payload: obj });
+    await this.props.history.push("/ListView");
   };
   render() {
     return (
@@ -19,7 +20,7 @@ class Home extends React.Component {
           <Selector
             setFamily={this.setFamily}
             options={this.props.family.map((x) => {
-              let obj = { value: x.id, label: x.name };
+              let obj = { value: x, label: x.name };
               return obj;
             })}
           />

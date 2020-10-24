@@ -1,10 +1,10 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Navbutton from "./Navbutton/Navbutton";
 import { connect } from "react-redux";
 class Nav extends React.Component {
   state = {
-    navLinks: ["Home", "My Lists"],
+    navLinks: ["Home"],
   };
   render() {
     return (
@@ -12,6 +12,19 @@ class Nav extends React.Component {
         {this.state.navLinks.map((x) => (
           <Navbutton navlink={x} />
         ))}
+        {this.props.user && (
+          <button
+            onClick={async () => {
+              await this.props.dispatch({
+                type: "SET_SELECTED_USER",
+                payload: this.props.user,
+              });
+              await this.props.history.push("/ListView");
+            }}
+          >
+            My Lists
+          </button>
+        )}
         {this.props.user && (
           <button onClick={() => this.props.dispatch({ type: "UNSET_USER" })}>
             Log out
@@ -26,4 +39,4 @@ const mapStateToProps = (state) => {
     user: state.user,
   };
 };
-export default connect(mapStateToProps)(Nav);
+export default withRouter(connect(mapStateToProps)(Nav));
