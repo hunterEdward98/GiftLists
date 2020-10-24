@@ -1,44 +1,49 @@
 import React, { Component } from "react";
-import { withRouter, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-class LoginPage extends Component {
+class RegisterPage extends Component {
   state = {
     username: "",
     password: "",
+    org_id: 0,
   };
-
-  //prevent refresh on form submission. dispatch to 'LOGIN' with the username and password
-  login = (event) => {
+  componentDidMount() {
+    this.props.dispatch({ type: "FETCH_ORGS" });
+  }
+  //I have no idea what most of this stuff does. I'll look into it when my project is done
+  registerUser = (event) => {
     event.preventDefault();
-
     if (this.state.username && this.state.password) {
-      //if inputs are filled out, send login request
       this.props.dispatch({
-        type: "LOGIN",
+        type: "REGISTER",
         payload: {
           username: this.state.username,
           password: this.state.password,
+          org_id: this.state.org_id,
         },
       });
+      this.setState({
+        username: "",
+        password: "",
+        org_id: 0,
+      });
     } else {
-      //if inputs are invalid, handle login error
-      this.props.dispatch({ type: "LOGIN_INPUT_ERROR" });
+      console.log("uname and pw reqd");
     }
-  }; // end login
+  }; // end registerUser
 
-  //save changes to local state
   handleInputChangeFor = (propertyName) => (event) => {
     this.setState({
       [propertyName]: event.target.value,
     });
   };
-  //I have no idea what most of this stuff does. I'll look into it when my project is done
+
   render() {
     return (
-      <div className="dark padded">
-        <form onSubmit={this.login}>
-          <h1>Login</h1>
+      <div className="container dark">
+        <form onSubmit={this.registerUser}>
+          <h1>Register User</h1>
           <div>
             <label htmlFor="username">
               Username:
@@ -61,30 +66,30 @@ class LoginPage extends Component {
               />
             </label>
           </div>
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className=" col-6 col-md-3">
-                <input
-                  className="log-in btn signin col-7"
-                  type="submit"
-                  name="submit"
-                  value="Log In"
-                />
-                <div className="mt-5">
-                  Don't have an account?
-                  <button
-                    className="btn blk col-7"
-                    onClick={() =>
-                      this.props.dispatch({ type: "SET_TO_REGISTER_MODE" })
-                    }
-                  >
-                    Register
-                  </button>
-                </div>
-              </div>
-            </div>
+          <select
+            required
+            value={this.state.org_id}
+            onChange={(event) => this.setState({ org_id: event.target.value })}
+          >
+            <option value={0} disabled defaultValue>
+              SELECT AN ORGANIZATION
+            </option>
+            {this.props.orgs ? (
+              this.props.orgs.map((x) => <option value={x.id}>{x.name}</option>)
+            ) : (
+              <option>NO ORGANIZATIONS FOUND. PLEASE CONTACT SITE OWNER</option>
+            )}
+          </select>
+          <div>
+            <input
+              className="register"
+              type="submit"
+              name="submit"
+              value="Register"
+            />
           </div>
         </form>
+        <center></center>
       </div>
     );
   }
@@ -95,6 +100,7 @@ class LoginPage extends Component {
 // const mapStateToProps = ({errors}) => ({ errors });
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  orgs: state.orgs,
 });
 
-export default withRouter(connect(mapStateToProps)(LoginPage));
+export default withRouter(connect(mapStateToProps)(RegisterPage));

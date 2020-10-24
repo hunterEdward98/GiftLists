@@ -10,13 +10,16 @@ const router = express.Router();
 //get all users
 router.get("/notme", rejectUnauthenticated, (req, res) => {
   let queryText;
-  queryText = 'SELECT * FROM "user" order by name where id != $1';
+  queryText = 'SELECT id, username, name FROM "user" where id != $1';
   pool
     .query(queryText, [req.user.id])
     .then((result) => {
       res.send(result.rows);
     })
-    .catch(() => res.send(500));
+    .catch((error) => {
+      console.log(error);
+      res.send(500);
+    });
 });
 
 //edit user after authorization check
@@ -65,13 +68,13 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 router.post("/register", (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
-  const org_id = Number(req.body.org_id);
   const queryText =
-    'INSERT INTO "user"(name, pass_hash, auth_level, org_id) VALUES ($1, $2, $3, $4) RETURNING id';
+    'INSERT INTO "user" (username, password, "name") VALUES ($1, $2, $3) RETURNING id';
   pool
-    .query(queryText, [username, password, 0, org_id])
+    .query(queryText, [username, password, "James"])
     .then(() => res.sendStatus(201))
     .catch((error) => {
+      console.log(error);
       res.sendStatus(500);
     });
 });

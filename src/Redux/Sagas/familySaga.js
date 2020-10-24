@@ -1,10 +1,10 @@
 import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
-function* fetchFamily(action) {
+function* fetchFamily() {
   try {
     const response = yield axios.get("/api/user/notme");
     console.log("FETCHED DATA: ", response);
-    yield put({ type: "SET_ATHLETES", payload: response.data });
+    yield put({ type: "SET_FAMILY", payload: response.data });
   } catch (error) {
     console.log("Error with athletes:", error);
   }
