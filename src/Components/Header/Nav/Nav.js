@@ -8,12 +8,13 @@ class Nav extends React.Component {
   };
   render() {
     return (
-      <div>
+      <nav>
         {this.state.navLinks.map((x) => (
           <Navbutton navlink={x} />
         ))}
         {this.props.user && (
           <button
+            className="App-header"
             onClick={async () => {
               await this.props.dispatch({
                 type: "SET_SELECTED_USER",
@@ -26,11 +27,14 @@ class Nav extends React.Component {
           </button>
         )}
         {this.props.user && (
-          <button onClick={() => this.props.dispatch({ type: "UNSET_USER" })}>
+          <button
+            className="App-header"
+            onClick={() => this.props.dispatch({ type: "UNSET_USER" })}
+          >
             Log out
           </button>
         )}
-      </div>
+      </nav>
     );
   }
 }
