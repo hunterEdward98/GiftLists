@@ -8,11 +8,11 @@ const userStrategy = require("../strategies/user.strategy");
 
 const router = express.Router();
 //get all users
-router.get("/notme", rejectUnauthenticated, (req, res) => {
+router.get("/:id", rejectUnauthenticated, (req, res) => {
   let queryText;
-  queryText = 'SELECT id, username, name FROM "user" where id != $1';
+  queryText = 'SELECT * FROM "list" where user_id != $1';
   pool
-    .query(queryText, [req.user.id])
+    .query(queryText, [req.params.id])
     .then((result) => {
       res.send(result.rows);
     })

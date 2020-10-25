@@ -29,7 +29,7 @@ class Nav extends React.Component {
         {this.props.user && (
           <button
             className="App-header"
-            onClick={() => this.props.dispatch({ type: "UNSET_USER" })}
+            onClick={() => this.props.dispatch({ type: "LOGOUT" })}
           >
             Log out
           </button>

@@ -10,12 +10,14 @@ class ListView extends React.Component {
   }
   render() {
     return (
-      <div>
-        {!this.props.selectedUser.name && <Redirect to="/Home" />}
-        {this.props.selectedUser == this.props.user
-          ? "My "
-          : this.props.selectedUser.name + "'s "}
-        Lists
+      <div className="h1">
+        <div>
+          {!this.props.selectedUser.name && <Redirect to="/Home" />}
+          {this.props.selectedUser == this.props.user
+            ? "My "
+            : this.props.selectedUser.name + "'s "}
+          Lists
+        </div>
         {this.props.selectedUser == this.props.user && (
           <button> Add List</button>
         )}

@@ -65,7 +65,7 @@ class LoginPage extends Component {
             <div className="row justify-content-center">
               <div className=" col-6 col-md-3">
                 <input
-                  className="log-in btn signin col-7"
+                  className="log-in btn btn-success signin col-7"
                   type="submit"
                   name="submit"
                   value="Log In"
@@ -73,7 +73,7 @@ class LoginPage extends Component {
                 <div className="mt-5">
                   Don't have an account?
                   <button
-                    className="btn blk col-7"
+                    className="btn btn-info blk col-7"
                     onClick={() =>
                       this.props.dispatch({ type: "SET_TO_REGISTER_MODE" })
                     }
